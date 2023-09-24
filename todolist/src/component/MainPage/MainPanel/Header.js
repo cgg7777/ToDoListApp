@@ -11,7 +11,7 @@ const Header = () => {
                 <p className="text">2023</p>
                 <div style={{ alignItems: "flex-start" }}>
                     <p className="text" style={{ fontSize: "30px" }}>
-                        10.10
+                        10.01
                     </p>
                 </div>
                 <p className="text">SUN</p>
