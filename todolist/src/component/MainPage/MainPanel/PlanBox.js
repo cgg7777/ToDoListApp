@@ -1,5 +1,6 @@
 import React from "react";
 import Plan from "./Plan";
+import AddPlanButton from "./AddPlanButton";
 const PlanBox = () => {
     return (
         <div style={{ width: "50%" }}>
@@ -10,6 +11,7 @@ const PlanBox = () => {
                 <div style={{ display: "flex", alignItems: "flex-end", fontSize: "0.5rem" }}>일, 10월 1일</div>
             </div>
             <Plan />
+            <AddPlanButton />
         </div>
     );
 };

@@ -2,7 +2,7 @@ import React from "react";
 
 const MenuIcon = () => {
     return (
-        <svg style={{ marginLeft: "2vw", position: "absolute" }} xmlns="http://www.w3.org/2000/svg" width="36" height="32" fill="none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="32" fill="none">
             <g filter="url(#a)">
                 <path fill="#fff" d="M4 24h28v-4H4v4Zm0-10h28v-4H4v4ZM4 0v4h28V0H4Z" />
             </g>
