@@ -12,43 +12,51 @@ const PlanBox = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const addPlans = (planName) => {
+    const [id, setID] = useState(10);
+    const addPlans = (newPlanName) => {
+        const plan = { title: newPlanName, id: id };
         const newPlan = [...plans];
-        newPlan.push(planName);
+        newPlan.push(plan);
+        setPlans(newPlan);
+        setID(id + 1);
+    };
+    const handleDelete = (id) => {
+        let newPlan = [...plans];
+        newPlan = newPlan.filter((plan) => plan.id !== id);
         setPlans(newPlan);
     };
-
-    useEffect(() => {
-        axios
-            .get("/api/plans")
-            .then((response) => {
-                const planList = [];
-                response.data.rows.forEach((plan) => {
-                    planList.push(plan.title);
-                });
-                setPlans(planList);
-            })
-            .catch((error) => console.log(error));
-    }, []);
+    // useEffect(() => {
+    //     axios
+    //         .get("/api/plans")
+    //         .then((response) => {
+    //             const planList = [];
+    //             response.data.rows.forEach((plan) => {
+    //                 planList.push(plan.title);
+    //             });
+    //             setPlans(planList);
+    //         })
+    //         .catch((error) => console.log(error));
+    // }, []);
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        if (newPlanName) {
-            axios
-                .post("/api/plans", { newPlanName })
-                .then((response) => {
-                    const planList = [];
-                    response.data.rows.forEach((plan) => {
-                        planList.push(plan.title);
-                    });
-                    setPlans(planList);
-                })
-                .catch((error) => console.log(error));
-        }
+        addPlans(newPlanName);
+        // e.preventDefault();
+        // if (newPlanName) {
+        //     axios
+        //         .post("/api/plans", { newPlanName })
+        //         .then((response) => {
+        //             const planList = [];
+        //             response.data.rows.forEach((plan) => {
+        //                 planList.push(plan.title);
+        //             });
+        //             setPlans(planList);
+        //         })
+        //         .catch((error) => console.log(error));
+        // }
         handleClose();
     };
 
-    const renderPlans = (plans) => plans.length > 0 && plans.map((plan) => <Plan plan={plan} />);
+    const renderPlans = (plans) => plans.length > 0 && plans.map((plan) => <Plan id={plan.id} plan={plan.title} handleDelete={handleDelete} />);
     return (
         <div style={{ width: "50%" }}>
             <div style={{ display: "flex", marginBottom: "1vw" }}>
