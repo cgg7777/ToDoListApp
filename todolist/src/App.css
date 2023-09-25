@@ -46,3 +46,7 @@
     font-weight: 700;
     line-height: normal;
 }
+
+.completed {
+    text-decoration: line-through;
+}

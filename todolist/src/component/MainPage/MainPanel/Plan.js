@@ -1,12 +1,21 @@
 import React, { useState } from "react";
 import CheckBox from "./../icons/CheckBox";
 
-const Plan = () => {
-    const [description, setDescription] = useState("테스트용 계획");
+const Plan = (props) => {
+    const [description, setDescription] = useState(props.plan);
+    const [completed, setCompleted] = useState(false);
+
+    const handleCheck = () => {
+        if (completed) setCompleted(false);
+        else setCompleted(true);
+    };
+
     return (
         <div style={{ display: "flex", marginBottom: "1vw", borderBottom: "1px solid #aaa" }}>
-            <CheckBox />
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>{description}</div>
+            <CheckBox handleCheck={handleCheck} />
+            <p className={completed ? "completed" : ""} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {description}
+            </p>
         </div>
     );
 };
