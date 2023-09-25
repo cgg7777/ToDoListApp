@@ -3,7 +3,9 @@ import axios from "axios";
 import Plan from "./Plan";
 import AddPlanButton from "./AddPlanButton";
 import { Modal, Button, Form } from "react-bootstrap";
-const PlanBox = () => {
+import findDay from "../../../utils/findDay.js";
+
+const PlanBox = ({ fullDate }) => {
     const [show, setShow] = useState(false);
     const [newPlanName, setNewPlanName] = useState("");
 
@@ -30,10 +32,15 @@ const PlanBox = () => {
                 response.data.rows.forEach((plan) => {
                     planList.push(plan);
                 });
-                setPlans(planList);
+                setPlans(
+                    planList.filter((plan) => {
+                        const dateObj = new Date(plan.due_date);
+                        return dateObj.getFullYear() === fullDate.getFullYear() && dateObj.getMonth() === fullDate.getMonth() && dateObj.getDate() === fullDate.getDate();
+                    })
+                );
             })
             .catch((error) => console.log(error));
-    }, []);
+    }, [fullDate]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -59,7 +66,9 @@ const PlanBox = () => {
                 <p className="text" style={{ marginRight: "1vw" }}>
                     오늘
                 </p>
-                <p style={{ display: "flex", alignItems: "flex-end", fontSize: "0.5rem" }}>일, 10월 1일</p>
+                <p style={{ display: "flex", alignItems: "flex-end", fontSize: "0.5rem" }}>
+                    {findDay[fullDate.getDay()]}, {fullDate.getMonth() + 1}월 {fullDate.getDate()}일
+                </p>
             </div>
 
             {renderPlans(plans)}
