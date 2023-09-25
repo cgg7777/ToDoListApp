@@ -22,9 +22,11 @@ const PlanBox = () => {
         axios
             .get("/api/plans")
             .then((response) => {
+                const planList = [];
                 response.data.rows.forEach((plan) => {
-                    addPlans(plan.title);
+                    planList.push(plan.title);
                 });
+                setPlans(planList);
             })
             .catch((error) => console.log(error));
     }, []);
@@ -32,10 +34,20 @@ const PlanBox = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (newPlanName) {
-            addPlans(newPlanName);
+            axios
+                .post("/api/plans", { newPlanName })
+                .then((response) => {
+                    const planList = [];
+                    response.data.rows.forEach((plan) => {
+                        planList.push(plan.title);
+                    });
+                    setPlans(planList);
+                })
+                .catch((error) => console.log(error));
         }
         handleClose();
     };
+
     const renderPlans = (plans) => plans.length > 0 && plans.map((plan) => <Plan plan={plan} />);
     return (
         <div style={{ width: "50%" }}>
