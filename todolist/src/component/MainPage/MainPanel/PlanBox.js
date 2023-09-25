@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Plan from "./Plan";
 import AddPlanButton from "./AddPlanButton";
 import { Modal, Button, Form } from "react-bootstrap";
@@ -11,26 +12,38 @@ const PlanBox = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const addPlans = () => {
+    const addPlans = (planName) => {
         const newPlan = [...plans];
-        newPlan.push(newPlanName);
+        newPlan.push(planName);
         setPlans(newPlan);
     };
+
+    useEffect(() => {
+        axios
+            .get("/api/plans")
+            .then((response) => {
+                response.data.rows.forEach((plan) => {
+                    addPlans(plan.title);
+                });
+            })
+            .catch((error) => console.log(error));
+    }, []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (newPlanName) {
-            addPlans();
+            addPlans(newPlanName);
         }
         handleClose();
     };
     const renderPlans = (plans) => plans.length > 0 && plans.map((plan) => <Plan plan={plan} />);
     return (
         <div style={{ width: "50%" }}>
-            <div style={{ display: "flex", marginBottom: "2vw" }}>
-                <div className="text" style={{ marginRight: "1vw" }}>
+            <div style={{ display: "flex", marginBottom: "1vw" }}>
+                <p className="text" style={{ marginRight: "1vw" }}>
                     오늘
-                </div>
-                <div style={{ display: "flex", alignItems: "flex-end", fontSize: "0.5rem" }}>일, 10월 1일</div>
+                </p>
+                <p style={{ display: "flex", alignItems: "flex-end", fontSize: "0.5rem" }}>일, 10월 1일</p>
             </div>
 
             {renderPlans(plans)}
