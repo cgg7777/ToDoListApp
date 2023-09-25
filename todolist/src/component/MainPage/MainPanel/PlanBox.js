@@ -46,13 +46,18 @@ const PlanBox = ({ fullDate }) => {
         e.preventDefault();
         if (newPlanName) {
             axios
-                .post("/api/plans", { newPlanName })
+                .post("/api/plans", { newPlanName, fullDate })
                 .then((response) => {
                     const planList = [];
                     response.data.rows.forEach((plan) => {
                         planList.push(plan);
                     });
-                    setPlans(planList);
+                    setPlans(
+                        planList.filter((plan) => {
+                            const dateObj = new Date(plan.due_date);
+                            return dateObj.getFullYear() === fullDate.getFullYear() && dateObj.getMonth() === fullDate.getMonth() && dateObj.getDate() === fullDate.getDate();
+                        })
+                    );
                 })
                 .catch((error) => console.log(error));
         }
