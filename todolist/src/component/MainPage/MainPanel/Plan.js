@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CheckBox from "./../icons/CheckBox";
 import { AiOutlineClose } from "react-icons/ai";
 const Plan = (props) => {
-    const [id, setID] = useState(props.id);
-    const [description, setDescription] = useState(props.plan);
+    const id = props.id;
+    const [title, setTitle] = useState(props.title);
     const [completed, setCompleted] = useState(false);
+
+    useEffect(() => {
+        setTitle(props.title);
+    }, [props]);
 
     const handleCheck = () => {
         if (completed) setCompleted(false);
@@ -19,7 +23,7 @@ const Plan = (props) => {
             <span style={{ display: "flex" }}>
                 <CheckBox handleCheck={handleCheck} />
                 <p className={completed ? "completed" : ""} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    {description}
+                    {title}
                 </p>
             </span>
             <div style={{ cursor: "pointer" }} onClick={planDelete}>
