@@ -7,8 +7,8 @@ const MenuIcon = () => {
                 <path fill="#fff" d="M4 24h28v-4H4v4Zm0-10h28v-4H4v4ZM4 0v4h28V0H4Z" />
             </g>
             <defs>
-                <filter id="a" width="36" height="32" x="0" y="0" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
-                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                <filter id="a" width="36" height="32" x="0" y="0" colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse">
+                    <feFlood floodOpacity="0" result="BackgroundImageFix" />
                     <feColorMatrix in="SourceAlpha" result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
                     <feOffset dy="4" />
                     <feGaussianBlur stdDeviation="2" />

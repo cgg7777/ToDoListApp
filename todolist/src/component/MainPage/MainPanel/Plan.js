@@ -6,11 +6,7 @@ import axios from "axios";
 const Plan = ({ plan, handleDelete }) => {
     const id = plan.id;
     const [title, setTitle] = useState(plan.title);
-    const [completed, setCompleted] = useState(false);
-
-    useEffect(() => {
-        setTitle(plan.title);
-    }, [plan.title]);
+    const [completed, setCompleted] = useState(plan.completed);
 
     const handleCheck = () => {
         const futureCompletedValue = plan.completed ? false : true;
