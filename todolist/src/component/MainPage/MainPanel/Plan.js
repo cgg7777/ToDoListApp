@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import CheckBox from "./../icons/CheckBox";
 import { AiOutlineClose } from "react-icons/ai";
 import axios from "axios";
+import useStore from "../../../utils/zustand.module";
 
 const Plan = ({ plan, handleDelete }) => {
+    const { fullDate } = useStore();
+
     const id = plan.id;
     const [title, setTitle] = useState(plan.title);
     const [completed, setCompleted] = useState(plan.completed);
 
+    const textColor = !completed && new Date(plan.due_date).getDate() != fullDate.getDate() ? "red" : "black";
     const handleCheck = () => {
         const futureCompletedValue = plan.completed ? false : true;
         axios
@@ -26,7 +30,7 @@ const Plan = ({ plan, handleDelete }) => {
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1vw", borderBottom: "1px solid #aaa" }}>
             <span style={{ display: "flex" }}>
                 <CheckBox isCompleted={completed} handleCheck={handleCheck} />
-                <p className={completed ? "completed" : ""} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <p className={completed ? "completed" : ""} style={{ color: textColor, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     {title}
                 </p>
             </span>
