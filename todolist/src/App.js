@@ -7,9 +7,7 @@ import MainPage from "./component/MainPage/MainPage";
 
 function App() {
     const navigate = useNavigate();
-    useEffect(() => {
-        navigate("/");
-    }, []);
+
     return (
         <Routes>
             <Route exact path="/" element={<MainPage />} />

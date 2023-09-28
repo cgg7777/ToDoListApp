@@ -11,7 +11,7 @@ const Plan = ({ plan, handleDelete }) => {
     const [title, setTitle] = useState(plan.title);
     const [completed, setCompleted] = useState(plan.completed);
 
-    const textColor = !completed && new Date(plan.due_date).getDate() != fullDate.getDate() ? "red" : "black";
+    const textColor = !completed && new Date(plan.due_date).getDate() !== fullDate.getDate() ? "red" : "black";
     const handleCheck = () => {
         const futureCompletedValue = plan.completed ? false : true;
         axios
