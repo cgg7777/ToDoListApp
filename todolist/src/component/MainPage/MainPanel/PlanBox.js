@@ -4,8 +4,9 @@ import Plan from "./Plan";
 import AddPlanButton from "./AddPlanButton";
 import { Modal, Button, Form } from "react-bootstrap";
 import findDay from "../../../utils/findDay.js";
-
-const PlanBox = ({ fullDate }) => {
+import useStore from "../../../utils/zustand.module.js";
+const PlanBox = () => {
+    const { fullDate } = useStore();
     const [show, setShow] = useState(false);
     const [newPlanName, setNewPlanName] = useState("");
 
@@ -25,7 +26,8 @@ const PlanBox = ({ fullDate }) => {
                 setPlans(
                     planList.filter((plan) => {
                         const dateObj = new Date(plan.due_date);
-                        return dateObj.getFullYear() === fullDate.getFullYear() && dateObj.getMonth() === fullDate.getMonth() && dateObj.getDate() === fullDate.getDate();
+                        if ((dateObj.getFullYear() === fullDate.getFullYear() && dateObj.getMonth() === fullDate.getMonth() && dateObj.getDate() === fullDate.getDate()) || (!plan.completed && dateObj <= fullDate)) return true;
+                        else return false;
                     })
                 );
             })
@@ -56,7 +58,8 @@ const PlanBox = ({ fullDate }) => {
                     setPlans(
                         planList.filter((plan) => {
                             const dateObj = new Date(plan.due_date);
-                            return dateObj.getFullYear() === fullDate.getFullYear() && dateObj.getMonth() === fullDate.getMonth() && dateObj.getDate() === fullDate.getDate();
+                            if ((dateObj.getFullYear() === fullDate.getFullYear() && dateObj.getMonth() === fullDate.getMonth() && dateObj.getDate() === fullDate.getDate()) || (!plan.completed && dateObj <= fullDate)) return true;
+                            else return false;
                         })
                     );
                 })

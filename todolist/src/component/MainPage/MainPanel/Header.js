@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import LeftArrow from "../icons/LeftArrow";
 import RightArrow from "../icons/RightArrow";
 import findDay from "../../../utils/findDay.js";
-const Header = ({ fullDate, setFullDate }) => {
+import useStore from "../../../utils/zustand.module";
+const Header = () => {
+    const { fullDate, setFullDate } = useStore();
     const handleDownButtonClick = () => {
         const yesterday = new Date(fullDate);
         yesterday.setDate(fullDate.getDate() - 1);
