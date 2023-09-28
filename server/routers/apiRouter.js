@@ -4,12 +4,16 @@ import getPlanQuery from "../queries/getPlanQuery.js";
 import postPlanQuery from "../queries/postPlanQuery.js";
 import deletePlanQuery from "../queries/deletePlanQuery.js";
 import updatePlanQuery from "./../queries/updatePlanQuery.js";
+import auth from "../utils/jwtValidation.js";
+import checkUserQuery from "./../queries/checkUserQuery.js";
 
 const apiRouter = express.Router();
 
+apiRouter.use(auth);
 apiRouter.get("/plans", async (req, res) => {
     try {
-        const [rows, columns] = await db.query(getPlanQuery, [1]);
+        const [userRows, userColumns] = await db.query(checkUserQuery, [req.user.email]);
+        const [rows, columns] = await db.query(getPlanQuery, [userRows[0].id]);
         res.status(200).json({ rows });
     } catch (error) {
         res.status(500).json({ message: "Plan Load Error" });
@@ -21,7 +25,8 @@ apiRouter.post("/plans", async (req, res) => {
         const title = req.body.newPlanName;
         const fullDate = new Date(req.body.fullDate);
         await db.query(postPlanQuery, [title, title, 1, 0, fullDate, currentTime, currentTime, 1]);
-        const [rows, columns] = await db.query(getPlanQuery, [1]);
+        const [userRows, userColumns] = await db.query(checkUserQuery, [req.user.email]);
+        const [rows, columns] = await db.query(getPlanQuery, [userRows[0].id]);
         res.status(200).json({ rows });
     } catch (error) {
         res.status(500).json({ message: "Plan Add Error" });

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import useStore from "../../utils/zustand.module.js";
+
 const LoginPage = () => {
     const {
         register,
@@ -8,12 +11,27 @@ const LoginPage = () => {
         handleSubmit,
     } = useForm();
 
-    const onSubmit = (data) => {
-        console.log(data);
-    };
-
     const [errorFromSubmit, setErrorFromSubmit] = useState("");
     const [loading, setLoading] = useState(false);
+    const { token, setToken, setEmail } = useStore();
+
+    const onSubmit = async (data) => {
+        try {
+            setLoading(true);
+            axios.post("http://localhost:8080/login", { email: data.email, password: data.password }).then((response) => {
+                setToken(response.data.token);
+                setEmail(data.email);
+            });
+            setLoading(false);
+        } catch (error) {
+            setErrorFromSubmit(error.message);
+            setLoading(false);
+            setTimeout(() => {
+                setErrorFromSubmit("");
+            }, 5000);
+        }
+    };
+
     return (
         <div className="auth-wrapper">
             <div style={{ textAlign: "center" }}>

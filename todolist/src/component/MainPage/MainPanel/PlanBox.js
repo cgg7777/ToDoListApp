@@ -6,7 +6,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import findDay from "../../../utils/findDay.js";
 import useStore from "../../../utils/zustand.module.js";
 const PlanBox = () => {
-    const { fullDate } = useStore();
+    const { fullDate, token } = useStore();
     const [show, setShow] = useState(false);
     const [newPlanName, setNewPlanName] = useState("");
 
@@ -17,7 +17,7 @@ const PlanBox = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8080/api/plans")
+            .get("http://localhost:8080/api/plans", { headers: { Authorization: `${token}` } })
             .then((response) => {
                 const planList = [];
                 response.data.rows.forEach((plan) => {

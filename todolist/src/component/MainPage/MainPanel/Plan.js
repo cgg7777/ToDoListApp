@@ -5,7 +5,7 @@ import axios from "axios";
 import useStore from "../../../utils/zustand.module";
 
 const Plan = ({ plan, handleDelete }) => {
-    const { fullDate } = useStore();
+    const { fullDate, token } = useStore();
 
     const id = plan.id;
     const [title, setTitle] = useState(plan.title);
@@ -15,7 +15,7 @@ const Plan = ({ plan, handleDelete }) => {
     const handleCheck = () => {
         const futureCompletedValue = plan.completed ? false : true;
         axios
-            .put(`http://localhost:8080/api/plans/${id}`, { futureCompletedValue })
+            .put(`http://localhost:8080/api/plans/${id}`, { headers: { authorization: token }, futureCompletedValue })
             .then((response) => {
                 plan.completed = response.data.completedValue;
                 setCompleted(plan.completed);
