@@ -14,19 +14,9 @@ const PlanBox = ({ fullDate }) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const handleDelete = (id) => {
-        axios
-            .delete(`/api/plans/${id}`)
-            .then((response) => {
-                let newPlan = [...plans];
-                newPlan = newPlan.filter((plan) => plan.id !== id);
-                setPlans(newPlan);
-            })
-            .catch((error) => console.log(error));
-    };
     useEffect(() => {
         axios
-            .get("/api/plans")
+            .get("http://localhost:8080/api/plans")
             .then((response) => {
                 const planList = [];
                 response.data.rows.forEach((plan) => {
@@ -41,12 +31,23 @@ const PlanBox = ({ fullDate }) => {
             })
             .catch((error) => console.log(error));
     }, [fullDate]);
+    console.log(plans);
+    const handleDelete = (id) => {
+        axios
+            .delete(`http://localhost:8080/api/plans/${id}`)
+            .then((response) => {
+                let newPlan = [...plans];
+                newPlan = newPlan.filter((plan) => plan.id !== id);
+                setPlans(newPlan);
+            })
+            .catch((error) => console.log(error));
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (newPlanName) {
             axios
-                .post("/api/plans", { newPlanName, fullDate })
+                .post("http://localhost:8080/api/plans", { newPlanName, fullDate })
                 .then((response) => {
                     const planList = [];
                     response.data.rows.forEach((plan) => {
@@ -64,7 +65,7 @@ const PlanBox = ({ fullDate }) => {
         handleClose();
     };
 
-    const renderPlans = (plans) => plans.length > 0 && plans.map((plan) => <Plan id={plan.id} title={plan.title} handleDelete={handleDelete} />);
+    const renderPlans = (plans) => plans.length > 0 && plans.map((plan) => <Plan key={plan.id} plan={plan} handleDelete={handleDelete} />);
     return (
         <div style={{ width: "50%" }}>
             <div style={{ display: "flex", marginBottom: "1vw" }}>

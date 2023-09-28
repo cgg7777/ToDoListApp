@@ -1,27 +1,35 @@
 import React, { useEffect, useState } from "react";
 import CheckBox from "./../icons/CheckBox";
 import { AiOutlineClose } from "react-icons/ai";
-const Plan = (props) => {
-    const id = props.id;
-    const [title, setTitle] = useState(props.title);
+import axios from "axios";
+
+const Plan = ({ plan, handleDelete }) => {
+    const id = plan.id;
+    const [title, setTitle] = useState(plan.title);
     const [completed, setCompleted] = useState(false);
 
     useEffect(() => {
-        setTitle(props.title);
-    }, [props]);
+        setTitle(plan.title);
+    }, [plan.title]);
 
     const handleCheck = () => {
-        if (completed) setCompleted(false);
-        else setCompleted(true);
+        const futureCompletedValue = plan.completed ? false : true;
+        axios
+            .put(`http://localhost:8080/api/plans/${id}`, { futureCompletedValue })
+            .then((response) => {
+                plan.completed = response.data.completedValue;
+                setCompleted(plan.completed);
+            })
+            .catch((error) => console.log(error));
     };
 
     const planDelete = () => {
-        props.handleDelete(id);
+        handleDelete(id);
     };
     return (
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1vw", borderBottom: "1px solid #aaa" }}>
             <span style={{ display: "flex" }}>
-                <CheckBox handleCheck={handleCheck} />
+                <CheckBox isCompleted={completed} handleCheck={handleCheck} />
                 <p className={completed ? "completed" : ""} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                     {title}
                 </p>

@@ -3,6 +3,7 @@ import db from "../db.js";
 import getPlanQuery from "../queries/getPlanQuery.js";
 import postPlanQuery from "../queries/postPlanQuery.js";
 import deletePlanQuery from "../queries/deletePlanQuery.js";
+import updatePlanQuery from "./../queries/updatePlanQuery.js";
 
 const apiRouter = express.Router();
 
@@ -36,4 +37,17 @@ apiRouter.delete("/plans/:id", async (req, res) => {
         res.status(500).json({ message: "Plan Delete Error" });
     }
 });
+
+apiRouter.put("/plans/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        const completedValue = req.body.futureCompletedValue;
+
+        await db.query(updatePlanQuery, [completedValue, id]);
+        res.status(200).json({ completedValue });
+    } catch (error) {
+        res.status(500).json({ message: "Plan edit Error" });
+    }
+});
+
 export default apiRouter;
