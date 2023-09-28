@@ -36,7 +36,7 @@ const PlanBox = () => {
     console.log(plans);
     const handleDelete = (id) => {
         axios
-            .delete(`http://localhost:8080/api/plans/${id}`)
+            .delete(`http://localhost:8080/api/plans/${id}`, { headers: { Authorization: `${token}` } })
             .then((response) => {
                 let newPlan = [...plans];
                 newPlan = newPlan.filter((plan) => plan.id !== id);
@@ -49,7 +49,7 @@ const PlanBox = () => {
         e.preventDefault();
         if (newPlanName) {
             axios
-                .post("http://localhost:8080/api/plans", { newPlanName, fullDate })
+                .post("http://localhost:8080/api/plans", { newPlanName, fullDate }, { headers: { Authorization: `${token}` } })
                 .then((response) => {
                     const planList = [];
                     response.data.rows.forEach((plan) => {

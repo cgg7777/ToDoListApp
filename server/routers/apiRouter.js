@@ -24,8 +24,8 @@ apiRouter.post("/plans", async (req, res) => {
     try {
         const title = req.body.newPlanName;
         const fullDate = new Date(req.body.fullDate);
-        await db.query(postPlanQuery, [title, title, 1, 0, fullDate, currentTime, currentTime, 1]);
         const [userRows, userColumns] = await db.query(checkUserQuery, [req.user.email]);
+        await db.query(postPlanQuery, [title, title, 1, 0, fullDate, currentTime, currentTime, userRows[0].id]);
         const [rows, columns] = await db.query(getPlanQuery, [userRows[0].id]);
         res.status(200).json({ rows });
     } catch (error) {

@@ -15,7 +15,7 @@ const Plan = ({ plan, handleDelete }) => {
     const handleCheck = () => {
         const futureCompletedValue = plan.completed ? false : true;
         axios
-            .put(`http://localhost:8080/api/plans/${id}`, { headers: { authorization: token }, futureCompletedValue })
+            .put(`http://localhost:8080/api/plans/${id}`, { futureCompletedValue }, { headers: { authorization: token } })
             .then((response) => {
                 plan.completed = response.data.completedValue;
                 setCompleted(plan.completed);
