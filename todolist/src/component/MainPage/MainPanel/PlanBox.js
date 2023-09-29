@@ -10,9 +10,25 @@ const PlanBox = () => {
     const token = localStorage.getItem("jwtToken");
     const [show, setShow] = useState(false);
     const [newPlanName, setNewPlanName] = useState("");
-
     const [plans, setPlans] = useState([]);
+    let printWord = "";
 
+    const calculateDateDiff = () => {
+        const now = new Date();
+        const printedDate = new Date(fullDate.getFullYear(), fullDate.getMonth(), fullDate.getDate());
+        const currentDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        let diff = printedDate.getTime() - currentDate.getTime();
+        diff = Math.floor(diff / (1000 * 60 * 60 * 24));
+        if (diff === 0) printWord = "오늘";
+        else if (diff < 0) {
+            diff = -diff;
+            printWord = `${diff} 일 전`;
+        } else {
+            printWord = `${diff} 일 후`;
+        }
+    };
+    calculateDateDiff();
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -74,7 +90,7 @@ const PlanBox = () => {
         <div style={{ width: "50%" }}>
             <div style={{ display: "flex", marginBottom: "1vw" }}>
                 <p className="text" style={{ marginRight: "1vw" }}>
-                    오늘
+                    {printWord}
                 </p>
                 <p style={{ display: "flex", alignItems: "flex-end", fontSize: "0.5rem" }}>
                     {findDay[fullDate.getDay()]}, {fullDate.getMonth() + 1}월 {fullDate.getDate()}일
