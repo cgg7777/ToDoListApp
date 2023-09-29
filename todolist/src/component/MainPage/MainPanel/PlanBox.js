@@ -6,7 +6,8 @@ import { Modal, Button, Form } from "react-bootstrap";
 import findDay from "../../../utils/findDay.js";
 import useStore from "../../../utils/zustand.module.js";
 const PlanBox = () => {
-    const { fullDate, token } = useStore();
+    const { fullDate } = useStore();
+    const token = localStorage.getItem("jwtToken");
     const [show, setShow] = useState(false);
     const [newPlanName, setNewPlanName] = useState("");
 

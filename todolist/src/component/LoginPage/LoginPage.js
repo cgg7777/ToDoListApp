@@ -13,14 +13,14 @@ const LoginPage = () => {
 
     const [errorFromSubmit, setErrorFromSubmit] = useState("");
     const [loading, setLoading] = useState(false);
-    const { token, setToken, setEmail } = useStore();
+    const { setIsLogined } = useStore();
 
     const onSubmit = async (data) => {
         try {
             setLoading(true);
             axios.post("http://localhost:8080/login", { email: data.email, password: data.password }).then((response) => {
-                setToken(response.data.token);
-                setEmail(data.email);
+                localStorage.setItem("jwtToken", response.data.token);
+                setIsLogined(true);
             });
             setLoading(false);
         } catch (error) {

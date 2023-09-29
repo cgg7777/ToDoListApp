@@ -5,7 +5,8 @@ import axios from "axios";
 import useStore from "../../../utils/zustand.module";
 
 const Plan = ({ plan, handleDelete }) => {
-    const { fullDate, token } = useStore();
+    const { fullDate } = useStore();
+    const token = localStorage.getItem("jwtToken");
 
     const id = plan.id;
     const [title, setTitle] = useState(plan.title);
