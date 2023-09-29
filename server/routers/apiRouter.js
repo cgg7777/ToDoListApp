@@ -6,6 +6,7 @@ import deletePlanQuery from "../queries/deletePlanQuery.js";
 import updatePlanQuery from "./../queries/updatePlanQuery.js";
 import auth from "../utils/jwtValidation.js";
 import checkUserQuery from "./../queries/checkUserQuery.js";
+import postUserQuery from "../queries/postUserQuery.js";
 
 const apiRouter = express.Router();
 

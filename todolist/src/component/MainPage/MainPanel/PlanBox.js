@@ -6,7 +6,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import findDay from "../../../utils/findDay.js";
 import useStore from "../../../utils/zustand.module.js";
 const PlanBox = () => {
-    const { fullDate } = useStore();
+    const { fullDate, setIsLogined } = useStore();
     const token = localStorage.getItem("jwtToken");
     const [show, setShow] = useState(false);
     const [newPlanName, setNewPlanName] = useState("");
@@ -48,7 +48,10 @@ const PlanBox = () => {
                     })
                 );
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                setIsLogined(false);
+                console.log(error);
+            });
     }, [fullDate]);
     console.log(plans);
     const handleDelete = (id) => {

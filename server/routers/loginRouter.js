@@ -3,6 +3,7 @@ import db from "../db.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import getUserQuery from "./../queries/getUserQeury.js";
+import postUserQuery from "../queries/postUserQuery.js";
 
 dotenv.config();
 const loginRouter = express.Router();
