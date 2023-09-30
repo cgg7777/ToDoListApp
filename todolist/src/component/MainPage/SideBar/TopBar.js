@@ -1,5 +1,5 @@
 import React from "react";
-import MenuIcon from "../icons/MenuIcon";
+import MenuIcon from "../../icons/MenuIcon";
 import { Button } from "react-bootstrap";
 import useStore from "../../../utils/zustand.module";
 const TopBar = (props) => {

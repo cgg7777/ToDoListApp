@@ -1,20 +1,22 @@
 import React, { useState } from "react";
-import LeftArrow from "../../icons/LeftArrow";
-import RightArrow from "../../icons/RightArrow";
-import findDay from "../../../utils/findDay.js";
-import useStore from "../../../utils/zustand.module";
+import LeftArrow from "../icons/LeftArrow";
+import RightArrow from "../icons/RightArrow";
+import findDay from "../../utils/findDay.js";
+import useStore from "../../utils/zustand.module";
+import mothToName from "../../utils/monthToName";
+
 const Header = () => {
-    const { fullDate, setFullDate } = useStore();
+    const { calendarDate, setCalendarDate } = useStore();
     const handleDownButtonClick = () => {
-        const yesterday = new Date(fullDate);
-        yesterday.setDate(fullDate.getDate() - 1);
-        setFullDate(yesterday);
+        const yesterday = new Date(calendarDate);
+        yesterday.setMonth(calendarDate.getMonth() - 1);
+        setCalendarDate(yesterday);
     };
 
     const handleUpButtonClick = () => {
-        const tomorrow = new Date(fullDate);
-        tomorrow.setDate(fullDate.getDate() + 1);
-        setFullDate(tomorrow);
+        const tomorrow = new Date(calendarDate);
+        tomorrow.setMonth(calendarDate.getMonth() + 1);
+        setCalendarDate(tomorrow);
     };
 
     return (
@@ -23,13 +25,13 @@ const Header = () => {
                 <LeftArrow />
             </div>
             <div>
-                <p className="text">{fullDate.getFullYear()}</p>
+                <p className="text">{calendarDate.getFullYear()}</p>
                 <div style={{ alignItems: "flex-start" }}>
                     <p className="text" style={{ fontSize: "30px" }}>
-                        {fullDate.getMonth() + 1}.{String(fullDate.getDate()).padStart(2, "0")}
+                        {calendarDate.getMonth() + 1}
                     </p>
                 </div>
-                <p className="text">{findDay[fullDate.getDay()]}</p>
+                <p className="text">{mothToName[calendarDate.getMonth()]}</p>
             </div>
             <div onClick={handleUpButtonClick} style={{ cursor: "pointer", display: "flex", alignItems: "center", marginLeft: "3vw" }}>
                 <RightArrow />

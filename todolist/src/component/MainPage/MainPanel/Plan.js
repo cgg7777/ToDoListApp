@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CheckBox from "./../icons/CheckBox";
+import CheckBox from "../../icons/CheckBox";
 import { AiOutlineClose } from "react-icons/ai";
 import axios from "axios";
 import useStore from "../../../utils/zustand.module";

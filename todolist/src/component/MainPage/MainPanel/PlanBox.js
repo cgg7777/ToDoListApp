@@ -53,7 +53,7 @@ const PlanBox = () => {
                 console.log(error);
             });
     }, [fullDate]);
-    console.log(plans);
+
     const handleDelete = (id) => {
         axios
             .delete(`http://localhost:8080/api/plans/${id}`, { headers: { Authorization: `${token}` } })
