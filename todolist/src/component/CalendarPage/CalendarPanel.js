@@ -14,12 +14,12 @@ function CalendarPanel() {
 
     const [events, setEvents] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const [newPlanName, setNewPlanName] = useState("");
+    const [datetimeStart, setDatetimeStart] = useState("");
+    const [datetimeEnd, setDatetimeEnd] = useState("");
+
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [newEvent, setNewEvent] = useState({
-        title: "",
-        start: selectedDate,
-        end: selectedDate,
-    });
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -33,18 +33,13 @@ function CalendarPanel() {
         setSelectedDate(date);
     };
 
-    const handleEventSubmit = () => {
-        setEvents([...events, newEvent]);
-        closeModal();
-    };
-
     useEffect(() => {
         axios
             .get("http://localhost:8080/api/plans", { headers: { Authorization: `${token}` } })
             .then((response) => {
                 const tempEvents = [];
                 response.data.rows.forEach((plan) => {
-                    tempEvents.push({ title: plan.title, start: new Date(plan.due_date), end: new Date(plan.due_date) });
+                    tempEvents.push({ title: plan.title, start: new Date(plan.start_date), end: new Date(plan.due_date) });
                 });
                 setEvents(tempEvents);
             })
@@ -53,7 +48,19 @@ function CalendarPanel() {
                 console.log(error);
             });
     }, []);
-
+    const handleSubmit = () => {
+        axios
+            .post("http://localhost:8080/api/plans", { newPlanName, datetimeStart, datetimeEnd }, { headers: { Authorization: `${token}` } })
+            .then((response) => {
+                const tempEvents = [];
+                response.data.rows.forEach((plan) => {
+                    tempEvents.push({ title: plan.title, start: new Date(plan.start_date), end: new Date(plan.due_date) });
+                });
+                setEvents(tempEvents);
+            })
+            .catch((error) => console.log(error));
+        closeModal();
+    };
     const customToolbar = () => {
         return <div className="custom-toolbar"></div>;
     };
@@ -73,18 +80,18 @@ function CalendarPanel() {
                                 <Modal.Title>계획 생성하기</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <Form>
+                                <Form onSubmit={handleSubmit}>
                                     <Form.Group className="mb-3">
                                         <Form.Label>Title</Form.Label>
-                                        <Form.Control type="text" placeholder="달성할 계획을 작성해주세요" />
+                                        <Form.Control onChange={(e) => setNewPlanName(e.target.value)} type="text" placeholder="달성할 계획을 작성해주세요" />
                                     </Form.Group>
                                     <Form.Group className="mb-3">
                                         <Form.Label>Start Time</Form.Label>
-                                        <Form.Control type="datetime-local" placeholder="시작 시간" />
+                                        <Form.Control onChange={(e) => setDatetimeStart(e.target.value)} type="datetime-local" placeholder="시작 시간" />
                                     </Form.Group>
                                     <Form.Group className="mb-3">
                                         <Form.Label>Due</Form.Label>
-                                        <Form.Control type="datetime-local" placeholder="종료 시간" />
+                                        <Form.Control onChange={(e) => setDatetimeEnd(e.target.value)} type="datetime-local" placeholder="종료 시간" />
                                     </Form.Group>
                                 </Form>
                             </Modal.Body>
@@ -92,7 +99,7 @@ function CalendarPanel() {
                                 <Button variant="secondary" onClick={closeModal}>
                                     취소
                                 </Button>
-                                <Button variant="primary" onClick={closeModal}>
+                                <Button variant="primary" onClick={handleSubmit}>
                                     추가
                                 </Button>
                             </Modal.Footer>
