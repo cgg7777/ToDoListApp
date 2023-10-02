@@ -15,8 +15,14 @@ const Plan = ({ plan, handleDelete }) => {
     const textColor = !completed && new Date(plan.due_date).getDate() !== fullDate.getDate() ? "red" : "black";
     const handleCheck = () => {
         const futureCompletedValue = plan.completed ? false : true;
+
+        const offset = -9;
+        const currentDate = new Date();
+        const koreanDate = new Date(currentDate.getTime() - offset * 60 * 60 * 1000);
+        const datetimeString = koreanDate.toISOString().slice(0, 19).replace("T", " ");
+
         axios
-            .put(`http://localhost:8080/api/plans/${id}`, { futureCompletedValue }, { headers: { authorization: token } })
+            .put(`http://localhost:8080/api/plans/${id}`, { futureCompletedValue, datetimeString }, { headers: { authorization: token } })
             .then((response) => {
                 plan.completed = response.data.completedValue;
                 setCompleted(plan.completed);

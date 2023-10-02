@@ -1,5 +1,5 @@
 const updatePlanQuery = `UPDATE ToDos
-SET completed = ?
+SET completed = ? , completed_at = ?
 WHERE id = ?;`;
 
 export default updatePlanQuery;

@@ -21,12 +21,14 @@ apiRouter.get("/plans", async (req, res) => {
     }
 });
 apiRouter.post("/plans", async (req, res) => {
-    const currentTime = new Date();
+    console.log(req.body);
     try {
         const title = req.body.newPlanName;
-        const fullDate = new Date(req.body.fullDate);
+        const datetimeStart = req.body.datetimeStart;
+        const datetimeEnd = req.body.datetimeEnd;
         const [userRows, userColumns] = await db.query(checkUserQuery, [req.user.email]);
-        await db.query(postPlanQuery, [title, title, 1, 0, fullDate, currentTime, currentTime, userRows[0].id]);
+        console.log("1234");
+        await db.query(postPlanQuery, [title, title, 1, 0, datetimeStart, datetimeEnd, datetimeEnd, userRows[0].id]);
         const [rows, columns] = await db.query(getPlanQuery, [userRows[0].id]);
         res.status(200).json({ rows });
     } catch (error) {
@@ -48,8 +50,9 @@ apiRouter.put("/plans/:id", async (req, res) => {
     try {
         const id = req.params.id;
         const completedValue = req.body.futureCompletedValue;
+        const datetimeString = req.body.datetimeString;
 
-        await db.query(updatePlanQuery, [completedValue, id]);
+        await db.query(updatePlanQuery, [completedValue, datetimeString, id]);
         res.status(200).json({ completedValue });
     } catch (error) {
         res.status(500).json({ message: "Plan edit Error" });

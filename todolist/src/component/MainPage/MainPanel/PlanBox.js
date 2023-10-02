@@ -68,8 +68,13 @@ const PlanBox = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (newPlanName) {
+            const year = fullDate.getFullYear();
+            const month = fullDate.getMonth() + 1;
+            const day = fullDate.getDate();
+            const datetimeStart = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")} 00:00:00`;
+            const datetimeEnd = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")} 23:59:59`;
             axios
-                .post("http://localhost:8080/api/plans", { newPlanName, fullDate }, { headers: { Authorization: `${token}` } })
+                .post("http://localhost:8080/api/plans", { newPlanName, datetimeStart, datetimeEnd }, { headers: { Authorization: `${token}` } })
                 .then((response) => {
                     const planList = [];
                     response.data.rows.forEach((plan) => {
