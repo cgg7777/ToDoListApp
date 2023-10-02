@@ -21,13 +21,12 @@ apiRouter.get("/plans", async (req, res) => {
     }
 });
 apiRouter.post("/plans", async (req, res) => {
-    console.log(req.body);
     try {
         const title = req.body.newPlanName;
         const datetimeStart = req.body.datetimeStart;
         const datetimeEnd = req.body.datetimeEnd;
         const [userRows, userColumns] = await db.query(checkUserQuery, [req.user.email]);
-        console.log("1234");
+
         await db.query(postPlanQuery, [title, title, 1, 0, datetimeStart, datetimeEnd, datetimeEnd, userRows[0].id]);
         const [rows, columns] = await db.query(getPlanQuery, [userRows[0].id]);
         res.status(200).json({ rows });
