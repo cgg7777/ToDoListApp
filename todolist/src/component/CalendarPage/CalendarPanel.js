@@ -9,7 +9,8 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 const localizer = momentLocalizer(moment);
 
 function CalendarPanel() {
-    const { calendarDate, setIsLogined } = useStore();
+    const { calendarDate, setCalendarDate, setIsLogined } = useStore();
+    const [view, setView] = useState("month");
     const token = localStorage.getItem("jwtToken");
 
     const [events, setEvents] = useState([]);
@@ -29,8 +30,8 @@ function CalendarPanel() {
         setIsModalOpen(false);
     };
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
+    const handleViewChange = (newView) => {
+        setView(newView);
     };
 
     useEffect(() => {
@@ -61,8 +62,22 @@ function CalendarPanel() {
             .catch((error) => console.log(error));
         closeModal();
     };
-    const customToolbar = () => {
-        return <div className="custom-toolbar"></div>;
+    const customToolbar = ({ onNavigate }) => {
+        return (
+            <div className="custom-toolbar">
+                <span className="custom-btn-group">
+                    <button type="button" onClick={() => handleViewChange("month")}>
+                        MONTH
+                    </button>
+                    <button type="button" onClick={() => handleViewChange("week")}>
+                        WEEK
+                    </button>
+                    <button type="button" onClick={() => handleViewChange("day")}>
+                        DAY
+                    </button>
+                </span>
+            </div>
+        );
     };
     return (
         <div style={{ width: "100%", justifyContent: "center" }}>
@@ -71,7 +86,18 @@ function CalendarPanel() {
                 <div className="App">
                     <Button onClick={openModal}>일정 추가</Button>
                     <div style={{ width: "60vw", height: "40vw" }}>
-                        <Calendar date={calendarDate} localizer={localizer} events={events} startAccessor="start" endAccessor="end" style={{ margin: "20px" }} />
+                        <Calendar
+                            components={{ toolbar: customToolbar }}
+                            view={view}
+                            onView={handleViewChange}
+                            date={calendarDate}
+                            onNavigate={setCalendarDate}
+                            localizer={localizer}
+                            events={events}
+                            startAccessor="start"
+                            endAccessor="end"
+                            style={{ margin: "20px" }}
+                        />
                     </div>
 
                     <div>
