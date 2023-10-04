@@ -65,15 +65,15 @@ function CalendarPanel() {
         return (
             <div className="custom-toolbar">
                 <span className="custom-btn-group">
-                    <button type="button" onClick={() => handleViewChange("month")}>
+                    <Button variant="outline-primary" onClick={() => handleViewChange("month")}>
                         MONTH
-                    </button>
-                    <button type="button" onClick={() => handleViewChange("week")}>
+                    </Button>
+                    <Button variant="outline-primary" onClick={() => handleViewChange("week")}>
                         WEEK
-                    </button>
-                    <button type="button" onClick={() => handleViewChange("day")}>
+                    </Button>
+                    <Button variant="outline-primary" onClick={() => handleViewChange("day")}>
                         DAY
-                    </button>
+                    </Button>
                 </span>
             </div>
         );
