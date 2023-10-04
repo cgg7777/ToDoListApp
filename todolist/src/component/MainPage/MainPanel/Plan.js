@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CheckBox from "../../icons/CheckBox";
 import { AiOutlineClose } from "react-icons/ai";
 import axios from "axios";

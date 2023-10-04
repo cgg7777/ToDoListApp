@@ -14,7 +14,6 @@ function CalendarPanel() {
     const token = localStorage.getItem("jwtToken");
 
     const [events, setEvents] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(new Date());
 
     const [newPlanName, setNewPlanName] = useState("");
     const [datetimeStart, setDatetimeStart] = useState("");
@@ -62,7 +61,7 @@ function CalendarPanel() {
             .catch((error) => console.log(error));
         closeModal();
     };
-    const customToolbar = ({ onNavigate }) => {
+    const customToolbar = () => {
         return (
             <div className="custom-toolbar">
                 <span className="custom-btn-group">

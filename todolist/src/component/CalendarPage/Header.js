@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import LeftArrow from "../icons/LeftArrow";
 import RightArrow from "../icons/RightArrow";
-import findDay from "../../utils/findDay.js";
 import useStore from "../../utils/zustand.module";
 import mothToName from "../../utils/monthToName";
 
