@@ -3,7 +3,7 @@ import db from "../db.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import getUserQuery from "./../queries/getUserQeury.js";
-import postUserQuery from "../queries/postUserQuery.js";
+import hash from "../utils/hash.js";
 
 dotenv.config();
 const loginRouter = express.Router();
@@ -13,7 +13,7 @@ loginRouter.post("/", async (req, res) => {
         const key = process.env.SECRET_KEY;
 
         const email = req.body.email;
-        const password = req.body.password;
+        const password = hash(req.body.password);
 
         const [rows, columns] = await db.query(getUserQuery, [email, password]);
 
