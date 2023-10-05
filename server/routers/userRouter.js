@@ -11,7 +11,7 @@ userRouter.post("/", async (req, res) => {
     try {
         const [checkUserRows, checkUserColumns] = await db.query(checkUserQuery, [req.body.email]);
         if (checkUserRows.length > 0) throw new Error("Duplicated Email");
-
+        console.log(req.body);
         const [userRows, userColumns] = await db.query(postUserQuery, [req.body.email, hash(req.body.password)]);
 
         res.status(200).json({ message: "User Add Completed!" });
