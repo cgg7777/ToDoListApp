@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import getUserQuery from "./../queries/getUserQeury.js";
 import hash from "../utils/hash.js";
+import { UserNotExist } from "../customExceptions/loginException.js";
 
 dotenv.config();
 const loginRouter = express.Router();
@@ -17,12 +18,7 @@ loginRouter.post("/", async (req, res) => {
 
         const [rows, columns] = await db.query(getUserQuery, [email, password]);
 
-        if (rows.length <= 0) {
-            res.status(400).json({
-                message: "Not Existing User",
-            });
-            return;
-        }
+        if (rows.length <= 0) throw new UserNotExist();
 
         const token = jwt.sign(
             {
@@ -32,13 +28,20 @@ loginRouter.post("/", async (req, res) => {
             key,
             { expiresIn: "15m", issuer: "cgg7777" }
         );
+
         res.status(200).json({
             token,
         });
     } catch (error) {
-        res.status(500).json({
-            message: "login failed",
-        });
+        if (error instanceof UserNotExist) {
+            res.status(error.status).json({
+                message: error.message,
+            });
+        } else {
+            res.status(500).json({
+                message: error.message,
+            });
+        }
     }
 });
 
