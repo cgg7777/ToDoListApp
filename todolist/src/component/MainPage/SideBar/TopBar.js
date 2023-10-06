@@ -2,16 +2,32 @@ import React from "react";
 import MenuIcon from "../../icons/MenuIcon";
 import { Button } from "react-bootstrap";
 import useStore from "../../../utils/zustand.module";
+import axios from "axios";
 const TopBar = (props) => {
-    const { setIsLogined } = useStore();
+    const { email, setIsLogined } = useStore();
+    const token = localStorage.getItem("jwtToken");
 
     const handleLogout = () => {
-        localStorage.removeItem("jwtToken");
-        setIsLogined(false);
+        console.log(email);
+        axios
+            .delete(`http://localhost:8080/api/refresh/${email}`, { headers: { Authorization: `${token}` } })
+            .then((response) => {
+                localStorage.removeItem("jwtToken");
+                setIsLogined(false);
+            })
+            .catch((error) => console.log(error));
     };
 
     return (
-        <div style={{ display: "flex", justifyContent: "space-between", width: "100%", height: "60px", background: "#504848" }}>
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                height: "60px",
+                background: "#504848",
+            }}
+        >
             <div onClick={props.handleMenuClick} style={{ display: "flex", marginLeft: "2vw", cursor: "pointer", alignItems: "center" }}>
                 <MenuIcon />
             </div>
