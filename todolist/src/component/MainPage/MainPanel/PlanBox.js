@@ -36,6 +36,8 @@ const PlanBox = () => {
         axios
             .get("http://localhost:8080/api/plans", { headers: { Authorization: `${token}` } })
             .then((response) => {
+                if ("token" in response.data) localStorage.setItem("jwtToken", response.data.token);
+
                 const planList = [];
                 response.data.rows.forEach((plan) => {
                     planList.push(plan);
@@ -43,7 +45,11 @@ const PlanBox = () => {
                 setPlans(
                     planList.filter((plan) => {
                         const dateObj = new Date(plan.due_date);
-                        if ((dateObj.getFullYear() === fullDate.getFullYear() && dateObj.getMonth() === fullDate.getMonth() && dateObj.getDate() === fullDate.getDate()) || (!plan.completed && dateObj <= fullDate)) return true;
+                        if (
+                            (dateObj.getFullYear() === fullDate.getFullYear() && dateObj.getMonth() === fullDate.getMonth() && dateObj.getDate() === fullDate.getDate()) ||
+                            (!plan.completed && dateObj <= fullDate)
+                        )
+                            return true;
                         else return false;
                     })
                 );
@@ -83,7 +89,11 @@ const PlanBox = () => {
                     setPlans(
                         planList.filter((plan) => {
                             const dateObj = new Date(plan.due_date);
-                            if ((dateObj.getFullYear() === fullDate.getFullYear() && dateObj.getMonth() === fullDate.getMonth() && dateObj.getDate() === fullDate.getDate()) || (!plan.completed && dateObj <= fullDate)) return true;
+                            if (
+                                (dateObj.getFullYear() === fullDate.getFullYear() && dateObj.getMonth() === fullDate.getMonth() && dateObj.getDate() === fullDate.getDate()) ||
+                                (!plan.completed && dateObj <= fullDate)
+                            )
+                                return true;
                             else return false;
                         })
                     );
