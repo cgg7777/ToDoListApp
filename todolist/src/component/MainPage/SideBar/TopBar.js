@@ -3,14 +3,14 @@ import MenuIcon from "../../icons/MenuIcon";
 import { Button } from "react-bootstrap";
 import useStore from "../../../utils/zustand.module";
 import axios from "axios";
+
 const TopBar = (props) => {
-    const { email, setIsLogined } = useStore();
+    const { setIsLogined } = useStore();
     const token = localStorage.getItem("jwtToken");
 
     const handleLogout = () => {
-        console.log(email);
         axios
-            .delete(`http://localhost:8080/api/refresh/${email}`, { headers: { Authorization: `${token}` } })
+            .delete(`http://localhost:8080/api/refresh`, { headers: { Authorization: `${token}` } })
             .then((response) => {
                 localStorage.removeItem("jwtToken");
                 setIsLogined(false);
