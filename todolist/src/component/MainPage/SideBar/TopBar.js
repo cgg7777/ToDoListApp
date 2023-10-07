@@ -5,7 +5,7 @@ import useStore from "../../../utils/zustand.module";
 import axios from "axios";
 
 const TopBar = (props) => {
-    const { email, setIsLogined } = useStore();
+    const { setIsLogined } = useStore();
     const token = localStorage.getItem("jwtToken");
 
     const handleLogout = () => {

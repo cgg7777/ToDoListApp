@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { verifyRefresh } from "./verifyToken.js";
 import { getAccessToken } from "./getToken.js";
-import client from "../redis/redis.js";
+
 dotenv.config();
 
 const auth = async (req, res, next) => {
@@ -14,13 +14,9 @@ const auth = async (req, res, next) => {
         if (accessError.name === "TokenExpiredError") {
             const userData = jwt.decode(req.headers.authorization);
             const refreshToken = req.cookies.refresh_token;
-
             if (verifyRefresh(refreshToken, userData.email)) {
-                console.log("access TOken finished");
                 const newToken = getAccessToken(userData.email);
-                res.status(200).json({
-                    token: newToken,
-                });
+                req.headers.authorization = newToken;
                 req.user = userData;
                 return next();
             }
