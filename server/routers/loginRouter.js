@@ -15,7 +15,6 @@ loginRouter.post("/", async (req, res) => {
         const password = hash(req.body.password);
 
         const [rows, columns] = await db.query(getUserQuery, [email, password]);
-
         if (rows.length <= 0) throw new UserNotExist();
 
         const token = getAccessToken(email);

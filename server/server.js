@@ -19,3 +19,5 @@ app.listen(8080, function () {
     client.connect();
     console.log("listening on 8080");
 });
+
+export default app;
