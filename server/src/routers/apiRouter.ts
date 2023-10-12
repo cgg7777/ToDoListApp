@@ -1,32 +1,32 @@
-import express from "express";
-import jwt from "jsonwebtoken";
-import db from "../db.js";
-import getPlanQuery from "../queries/getPlanQuery.js";
-import postPlanQuery from "../queries/postPlanQuery.js";
-import deletePlanQuery from "../queries/deletePlanQuery.js";
-import updatePlanQuery from "./../queries/updatePlanQuery.js";
-import auth from "../utils/jwt/jwtValidation.js";
-import checkUserQuery from "./../queries/checkUserQuery.js";
-import client from "../utils/redis/redis.js";
+import * as express from "express";
+import * as jwt from "jsonwebtoken";
+import db from "../db";
+import getPlanQuery from "../queries/getPlanQuery";
+import postPlanQuery from "../queries/postPlanQuery";
+import deletePlanQuery from "../queries/deletePlanQuery";
+import updatePlanQuery from "./../queries/updatePlanQuery";
+import auth from "../utils/jwt/jwtValidation";
+import checkUserQuery from "./../queries/checkUserQuery";
+import client from "../utils/redis/client";
 
 const apiRouter = express.Router();
 apiRouter.use(auth);
-apiRouter.get("/plans", async (req, res) => {
+apiRouter.get("/plans", async (req: any, res: any) => {
     try {
-        const [userRows, userColumns] = await db.query(checkUserQuery, [req.user.email]);
+        const [userRows, userColumns]: any[] = await db.query(checkUserQuery, [req.user.email]);
         const [rows, columns] = await db.query(getPlanQuery, [userRows[0].id]);
         res.status(200).json({ rows });
     } catch (error) {
         res.status(500).json({ message: "Plan Load Error" });
     }
 });
-apiRouter.post("/plans", async (req, res) => {
+apiRouter.post("/plans", async (req: any, res: any) => {
     try {
         const title = req.body.newPlanName;
         const datetimeStart = req.body.datetimeStart;
         const datetimeEnd = req.body.datetimeEnd;
 
-        const [userRows, userColumns] = await db.query(checkUserQuery, [req.user.email]);
+        const [userRows, userColumns]: any = await db.query(checkUserQuery, [req.user.email]);
 
         await db.query(postPlanQuery, [title, title, 1, 0, datetimeStart, datetimeEnd, datetimeEnd, userRows[0].id]);
         const [rows, columns] = await db.query(getPlanQuery, [userRows[0].id]);
@@ -59,9 +59,9 @@ apiRouter.put("/plans/:id", async (req, res) => {
     }
 });
 
-apiRouter.delete("/refresh", async (req, res) => {
+apiRouter.delete("/refresh", async (req: any, res: any) => {
     try {
-        const userData = jwt.decode(req.headers.authorization);
+        const userData: any = jwt.decode(req.headers.authorization);
         const email = userData.email;
         client.del(email);
         res.status(200).json({ message: "Refresh Token Deleted" });

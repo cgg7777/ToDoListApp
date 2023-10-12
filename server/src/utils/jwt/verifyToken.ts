@@ -1,12 +1,12 @@
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-import client from "./../redis/redis.js";
-import util from "util";
+import * as jwt from "jsonwebtoken";
+import * as dotenv from "dotenv";
+import client from "../redis/client";
+import * as util from "util";
 
 dotenv.config();
 
-const verifyRefresh = async (refreshToken, email) => {
-    const key = process.env.SECRET_KEY;
+const verifyRefresh = async (refreshToken: any, email: string) => {
+    const key: any = process.env.SECRET_KEY;
     const getAsync = util.promisify(client.get).bind(client);
     try {
         const token = await getAsync(email);

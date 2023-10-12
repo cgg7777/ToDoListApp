@@ -1,10 +1,10 @@
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+import * as jwt from "jsonwebtoken";
+import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const getAccessToken = (email) => {
-    const key = process.env.SECRET_KEY;
+const getAccessToken = (email: string) => {
+    const key: string = process.env.SECRET_KEY ? process.env.SECRET_KEY : "";
 
     const token = jwt.sign(
         {
@@ -19,7 +19,7 @@ const getAccessToken = (email) => {
 };
 
 const getRefreshToken = () => {
-    const key = process.env.SECRET_KEY;
+    const key: string = process.env.SECRET_KEY ? process.env.SECRET_KEY : "";
 
     const token = jwt.sign({}, key, { expiresIn: "7d", issuer: "cgg7777" });
     return token;

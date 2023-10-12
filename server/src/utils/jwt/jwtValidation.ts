@@ -1,20 +1,20 @@
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+import * as jwt from "jsonwebtoken";
+import * as dotenv from "dotenv";
 import { verifyRefresh } from "./verifyToken.js";
 import { getAccessToken } from "./getToken.js";
 
 dotenv.config();
 
-const auth = async (req, res, next) => {
-    const key = process.env.SECRET_KEY;
+const auth = async (req: any, res: any, next: any) => {
+    const key: string = process.env.SECRET_KEY ? process.env.SECRET_KEY : "";
     try {
         req.user = jwt.verify(req.headers.authorization, key);
         return next();
-    } catch (accessError) {
+    } catch (accessError: any) {
         if (accessError.name === "TokenExpiredError") {
-            const userData = jwt.decode(req.headers.authorization);
+            const userData: any = jwt.decode(req.headers.authorization);
             const refreshToken = req.cookies.refresh_token;
-            if (verifyRefresh(refreshToken, userData.email)) {
+            if (await verifyRefresh(refreshToken, userData.email)) {
                 const newToken = getAccessToken(userData.email);
                 req.headers.authorization = newToken;
                 req.user = userData;

@@ -3,7 +3,8 @@
 req.http
 /server/.env
 /server/node_modules
-
+/server/coverage
+/server/dist
 # dependencies
 /node_modules
 /package.json

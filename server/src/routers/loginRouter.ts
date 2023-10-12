@@ -1,11 +1,11 @@
-import express from "express";
-import db from "../db.js";
+import * as express from "express";
+import db from "../db";
 
-import getUserQuery from "./../queries/getUserQeury.js";
-import hash from "../utils/hash.js";
-import { getAccessToken, getRefreshToken } from "../utils/jwt/getToken.js";
-import { UserNotExist } from "../customExceptions/loginException.js";
-import client from "../utils/redis/redis.js";
+import getUserQuery from "../queries/getUserQeury";
+import hash from "../utils/hash";
+import { getAccessToken, getRefreshToken } from "../utils/jwt/getToken";
+import { UserNotExist } from "../customExceptions/loginException";
+import client from "../utils/redis/client";
 
 const loginRouter = express.Router();
 
@@ -14,7 +14,7 @@ loginRouter.post("/", async (req, res) => {
         const email = req.body.email;
         const password = hash(req.body.password);
 
-        const [rows, columns] = await db.query(getUserQuery, [email, password]);
+        const [rows, columns]: any[] = await db.query(getUserQuery, [email, password]);
         if (rows.length <= 0) throw new UserNotExist();
 
         const token = getAccessToken(email);
@@ -26,7 +26,7 @@ loginRouter.post("/", async (req, res) => {
             token,
             email,
         });
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof UserNotExist) {
             res.status(error.status).json({
                 message: error.message,
