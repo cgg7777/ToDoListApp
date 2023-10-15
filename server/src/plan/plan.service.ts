@@ -18,4 +18,8 @@ export class PlanService {
   async postPlan(planDto: PlanDto, userId: number) {
     this.planRepository.postPlan(planDto, userId);
   }
+
+  async deletePlan(id: number) {
+    this.planRepository.deletePlan(id);
+  }
 }

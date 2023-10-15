@@ -60,7 +60,7 @@ const PlanBox = () => {
 
     const handleDelete = (id) => {
         axios
-            .delete(`http://localhost:8080/api/plans/${id}`, { headers: { Authorization: `${token}` } })
+            .delete(`http://localhost:8080/plan/${id}`, { headers: { Authorization: `Bearer ${token}` } })
             .then((response) => {
                 let newPlan = [...plans];
                 newPlan = newPlan.filter((plan) => plan.id !== id);

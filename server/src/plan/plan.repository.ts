@@ -33,4 +33,8 @@ export class PlanRepository {
     });
     this.#planRepository.save(plan);
   }
+
+  async deletePlan(id: number) {
+    this.#planRepository.delete({ id: id });
+  }
 }

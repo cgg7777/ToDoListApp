@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Req, UseGuards, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Req,
+  UseGuards,
+  Post,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { Plan } from './plan.entity';
 import { PlanService } from './plan.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -18,5 +27,11 @@ export class PlanController {
   postPlan(@Req() request, @Body() planDto: PlanDto): Promise<void> {
     this.planService.postPlan(planDto, request.user.id);
     return;
+  }
+
+  @Delete(':id')
+  deletePlan(@Param() params: any) {
+    const id = params.id;
+    this.planService.deletePlan(id);
   }
 }
