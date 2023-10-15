@@ -9,13 +9,8 @@ const TopBar = (props) => {
     const token = localStorage.getItem("jwtToken");
 
     const handleLogout = () => {
-        axios
-            .delete(`http://localhost:8080/api/refresh`, { headers: { Authorization: `${token}` } })
-            .then((response) => {
-                localStorage.removeItem("jwtToken");
-                setIsLogined(false);
-            })
-            .catch((error) => console.log(error));
+        localStorage.removeItem("jwtToken");
+        setIsLogined(false);
     };
 
     return (
