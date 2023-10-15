@@ -35,10 +35,10 @@ function CalendarPanel() {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8080/api/plans", { headers: { Authorization: `${token}` } })
+            .get("http://localhost:8080/plan", { headers: { Authorization: `Bearer ${token}` } })
             .then((response) => {
                 const tempEvents = [];
-                response.data.rows.forEach((plan) => {
+                response.data.forEach((plan) => {
                     tempEvents.push({ title: plan.title, start: new Date(plan.start_date), end: new Date(plan.due_date) });
                 });
                 setEvents(tempEvents);
@@ -50,13 +50,21 @@ function CalendarPanel() {
     }, []);
     const handleSubmit = () => {
         axios
-            .post("http://localhost:8080/api/plans", { newPlanName, datetimeStart, datetimeEnd }, { headers: { Authorization: `${token}` } })
+            .post("http://localhost:8080/plan", { title: newPlanName, datetimeStart, datetimeEnd }, { headers: { Authorization: `Bearer ${token}` } })
             .then((response) => {
-                const tempEvents = [];
-                response.data.rows.forEach((plan) => {
-                    tempEvents.push({ title: plan.title, start: new Date(plan.start_date), end: new Date(plan.due_date) });
-                });
-                setEvents(tempEvents);
+                axios
+                    .get("http://localhost:8080/plan", { headers: { Authorization: `Bearer ${token}` } })
+                    .then((response) => {
+                        const tempEvents = [];
+                        response.data.forEach((plan) => {
+                            tempEvents.push({ title: plan.title, start: new Date(plan.start_date), end: new Date(plan.due_date) });
+                        });
+                        setEvents(tempEvents);
+                    })
+                    .catch((error) => {
+                        setIsLogined(false);
+                        console.log(error);
+                    });
             })
             .catch((error) => console.log(error));
         closeModal();

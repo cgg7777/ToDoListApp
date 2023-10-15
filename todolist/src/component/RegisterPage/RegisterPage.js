@@ -19,7 +19,7 @@ const RegisterPage = () => {
     const onSubmit = async (data) => {
         try {
             setLoading(true);
-            axios.post("http://localhost:8080/users", { email: data.email, password: data.password }).then((response) => {
+            axios.post("http://localhost:8080/auth/signup", { username: data.email, password: data.password }).then((response) => {
                 navigate("/login");
             });
             setLoading(false);
