@@ -34,12 +34,10 @@ const PlanBox = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8080/api/plans", { headers: { Authorization: `${token}` } })
+            .get("http://localhost:8080/plan", { headers: { Authorization: `Bearer ${token}` } })
             .then((response) => {
-                if ("token" in response.data) localStorage.setItem("jwtToken", response.data.token);
-
                 const planList = [];
-                response.data.rows.forEach((plan) => {
+                response.data.forEach((plan) => {
                     planList.push(plan);
                 });
                 setPlans(
@@ -62,7 +60,7 @@ const PlanBox = () => {
 
     const handleDelete = (id) => {
         axios
-            .delete(`http://localhost:8080/api/plans/${id}`, { headers: { Authorization: `${token}` } })
+            .delete(`http://localhost:8080/plan/${id}`, { headers: { Authorization: `Bearer ${token}` } })
             .then((response) => {
                 let newPlan = [...plans];
                 newPlan = newPlan.filter((plan) => plan.id !== id);
@@ -80,23 +78,31 @@ const PlanBox = () => {
             const datetimeStart = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")} 00:00:00`;
             const datetimeEnd = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")} 23:59:59`;
             axios
-                .post("http://localhost:8080/api/plans", { newPlanName, datetimeStart, datetimeEnd }, { headers: { Authorization: `${token}` } })
+                .post("http://localhost:8080/plan", { title: newPlanName, datetimeStart, datetimeEnd }, { headers: { Authorization: `Bearer ${token}` } })
                 .then((response) => {
-                    const planList = [];
-                    response.data.rows.forEach((plan) => {
-                        planList.push(plan);
-                    });
-                    setPlans(
-                        planList.filter((plan) => {
-                            const dateObj = new Date(plan.due_date);
-                            if (
-                                (dateObj.getFullYear() === fullDate.getFullYear() && dateObj.getMonth() === fullDate.getMonth() && dateObj.getDate() === fullDate.getDate()) ||
-                                (!plan.completed && dateObj <= fullDate)
-                            )
-                                return true;
-                            else return false;
+                    axios
+                        .get("http://localhost:8080/plan", { headers: { Authorization: `Bearer ${token}` } })
+                        .then((response) => {
+                            const planList = [];
+                            response.data.forEach((plan) => {
+                                planList.push(plan);
+                            });
+                            setPlans(
+                                planList.filter((plan) => {
+                                    const dateObj = new Date(plan.due_date);
+                                    if (
+                                        (dateObj.getFullYear() === fullDate.getFullYear() && dateObj.getMonth() === fullDate.getMonth() && dateObj.getDate() === fullDate.getDate()) ||
+                                        (!plan.completed && dateObj <= fullDate)
+                                    )
+                                        return true;
+                                    else return false;
+                                })
+                            );
                         })
-                    );
+                        .catch((error) => {
+                            setIsLogined(false);
+                            console.log(error);
+                        });
                 })
                 .catch((error) => console.log(error));
         }
