@@ -7,6 +7,7 @@ import {
 import { Plan } from './plan.entity';
 import { Injectable } from '@nestjs/common';
 import { PlanDto } from './dto/plan-dto';
+import { CheckPlanDto } from './dto/check-plan-dto';
 
 @Injectable()
 export class PlanRepository {
@@ -36,5 +37,13 @@ export class PlanRepository {
 
   async deletePlan(id: number) {
     this.#planRepository.delete({ id: id });
+  }
+
+  async checkPlan(id: number, checkPlanDto: CheckPlanDto) {
+    const { completeValue, datetime } = checkPlanDto;
+    this.#planRepository.update(
+      { id: id },
+      { completed: completeValue, completed_at: datetime },
+    );
   }
 }

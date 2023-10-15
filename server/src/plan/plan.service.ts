@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PlanRepository } from './plan.repository';
 import { Plan } from './plan.entity';
 import { PlanDto } from './dto/plan-dto';
+import { CheckPlanDto } from './dto/check-plan-dto';
 
 @Injectable()
 export class PlanService {
@@ -21,5 +22,9 @@ export class PlanService {
 
   async deletePlan(id: number) {
     this.planRepository.deletePlan(id);
+  }
+
+  async checkPlan(id: number, checkPlanDto: CheckPlanDto) {
+    this.planRepository.checkPlan(id, checkPlanDto);
   }
 }

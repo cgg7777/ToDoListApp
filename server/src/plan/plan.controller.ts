@@ -7,11 +7,13 @@ import {
   Post,
   Delete,
   Param,
+  Put,
 } from '@nestjs/common';
 import { Plan } from './plan.entity';
 import { PlanService } from './plan.service';
 import { AuthGuard } from '@nestjs/passport';
 import { PlanDto } from './dto/plan-dto';
+import { CheckPlanDto } from './dto/check-plan-dto';
 
 @Controller('plan')
 @UseGuards(AuthGuard())
@@ -33,5 +35,11 @@ export class PlanController {
   deletePlan(@Param() params: any) {
     const id = params.id;
     this.planService.deletePlan(id);
+  }
+
+  @Put(':id')
+  checkPlan(@Param() params: any, @Body() checkPlanDto: CheckPlanDto) {
+    const id = params.id;
+    this.planService.checkPlan(id, checkPlanDto);
   }
 }
