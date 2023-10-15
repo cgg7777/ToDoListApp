@@ -30,3 +30,46 @@ req.http
 /todolist/npm-debug.log*
 /todolist/yarn-debug.log*
 /todolist/yarn-error.log*
+
+
+###### server
+
+# compiled output
+server/dist
+server/node_modules
+
+# Logs
+server/logs
+server/*.log
+server/npm-debug.log*
+server/pnpm-debug.log*
+server/yarn-debug.log*
+server/yarn-error.log*
+server/lerna-debug.log*
+
+# OS
+server/.DS_Store
+
+# Tests
+server/coverage
+server/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+server/.vscode/*
+server/!.vscode/settings.json
+server/!.vscode/tasks.json
+server/!.vscode/launch.json
+server/!.vscode/extensions.json
+
+# Config
+server/src/.env
+server/config/

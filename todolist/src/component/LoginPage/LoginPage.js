@@ -18,8 +18,8 @@ const LoginPage = () => {
     const onSubmit = async (data) => {
         try {
             setLoading(true);
-            axios.post("http://localhost:8080/login", { email: data.email, password: data.password }).then((response) => {
-                localStorage.setItem("jwtToken", response.data.token);
+            axios.post("http://localhost:8080/auth/signin", { username: data.email, password: data.password }).then((response) => {
+                localStorage.setItem("jwtToken", response.data.accessToken);
                 setIsLogined(true);
                 setEmail(response.data.email);
             });
