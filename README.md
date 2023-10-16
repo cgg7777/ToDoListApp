@@ -19,6 +19,22 @@
     <img src="https://img.shields.io/badge/jwt-7952B3?style=for-the-badge&logo=JWT&logoColor=white">
     <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
 
+# 실행 방법
+
+## server
+
+server 폴더는 서버 동작을 위한 코드가 작성되어 있는 폴더입니다.
+
+server 폴더 내부로 이동한 후, `npm install` 명령어로 필요한 라이브러리를 설치한 후,
+`npm run start:dev` 를 입력하면 서버를 동작시킬 수 있습니다.
+
+## todolist
+
+todolist 폴더는 동적인 웹 페이지를 렌더링해주기 위한 FrontEnd 코드가 작성되어 있는 폴더입니다.
+
+todolist 폴더 내부로 이동한 후 `npm install` 명령어로 필요한 라이브러리를 설치한 후,
+`npm run start`를 입력하면 페이지가 렌더링됩니다.
+
 # 기능 설명
 
 로그인 하기 이전에, 계정이 없는 경우 회원가입 페이지로 이동하여 회원 가입할 수 있습니다.
