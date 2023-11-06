@@ -12,10 +12,9 @@
     <br>
     <br>
 -   BackEnd  
-     <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white">
-    <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
+     <img src="https://img.shields.io/badge/nestjs-000000?style=for-the-badge&logo=nestjs&logoColor=white">
+    <img src="https://img.shields.io/badge/typeorm-23213E?style=for-the-badge&logo=typeorm&logoColor=white">
     <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
-    <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white">
     <img src="https://img.shields.io/badge/jwt-7952B3?style=for-the-badge&logo=JWT&logoColor=white">
     <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
 
