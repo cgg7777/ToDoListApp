@@ -26,7 +26,7 @@ export class PlanController {
   }
 
   @Post()
-  postPlan(@Req() request, @Body() planDto: PlanDto): Promise<void> {
+  postPlan(@Req() request: any, @Body() planDto: PlanDto): Promise<void> {
     this.planService.postPlan(planDto, request.user.id);
     return;
   }
